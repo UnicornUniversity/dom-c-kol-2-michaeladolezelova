@@ -11,8 +11,7 @@
  * @returns {string} containing number converted to output system
  */
 export function main(inputNumber, inputNumberSystem, outputNumberSystem) {
-  //TODO code
-  //let dtoOut = exMain(inputNumber, inputNumberSystem, outputNumberSystem);
+  let dtoOut = hexToDev(inputNumber, inputNumberSystem, outputNumberSystem);
   return dtoOut;
 }
 
@@ -22,7 +21,7 @@ export function main(inputNumber, inputNumberSystem, outputNumberSystem) {
  * @returns {Array} array of numbers refering to permitted input systems
  */
 export function permittedInputSystems() {
-	return [10, 2];
+	return [16];
 }
 
 /**
@@ -31,5 +30,42 @@ export function permittedInputSystems() {
  * @returns {Array} array of numbers refering to permitted output systems
  */
 export function permittedOutputSystems() {
-	return [10, 2];
+	return [10];
+}
+
+export function hexToDev(vstupniData, inputNumberSystem, outputNumberSystem) {
+
+	// SELECTION: validace vstupu
+	if (!vstupniData || vstupniData.length === 0) {
+		throw new Error("Vstup nesmí být prázdný");
+	}
+	if (inputNumberSystem !== 16 || outputNumberSystem !== 10) {
+		throw new Error("Podporován je pouze převod hex (16) → desítková (10)");
+	}
+
+	// SEQUENCE: inicializace
+	const HEX_POLE = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"];
+	let dec = 0;
+	const n = vstupniData.length;
+	vstupniData = vstupniData.toUpperCase();
+
+	// ITERATION: čtení od prvního k poslednímu — exponent se počítá odzadu
+	for (let i = 0; i < n; i++) {
+
+		// Variable Definition: aktuální znak
+		const currentCharacter = vstupniData[i];
+
+		// SELECTION: validace znaku
+		const hexIndex = HEX_POLE.indexOf(currentCharacter);
+		if (hexIndex === -1) {
+			throw new Error("Neplatný hex znak: " + currentCharacter);
+		}
+
+		// SEQUENCE: výpočet (jednoduše)
+		const exponent = n - 1 - i;  // pozice od konce
+		dec += hexIndex * Math.pow(16, exponent);  // k součtu přičti hodnotu znaku × 16^exponent
+	}
+
+	// SEQUENCE: výstup
+	return String(dec);
 }
