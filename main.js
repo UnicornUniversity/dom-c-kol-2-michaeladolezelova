@@ -11,7 +11,7 @@
  * @returns {string} containing number converted to output system
  */
 export function main(inputNumber, inputNumberSystem, outputNumberSystem) {
-  let dtoOut = hexToDev(inputNumber, inputNumberSystem, outputNumberSystem);
+  let dtoOut = hexToDec(inputNumber, inputNumberSystem, outputNumberSystem);
   return dtoOut;
 }
 
@@ -33,7 +33,7 @@ export function permittedOutputSystems() {
 	return [10];
 }
 
-export function hexToDev(vstupniData, inputNumberSystem, outputNumberSystem) {
+export function hexToDec(vstupniData, inputNumberSystem, outputNumberSystem) {
 
 	// SELECTION: validace vstupu
 	if (!vstupniData || vstupniData.length === 0) {
